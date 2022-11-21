@@ -149,6 +149,40 @@ EOF  all  create  destroy  help  quit  show  update
 ** no instance found **
 (hbnb) quit
 ```
+## API
+| **HTTP Method** |              **URI**              |                            **Action**                            |
+|:---------------:|:---------------------------------:|:----------------------------------------------------------------:|
+|                 |                                   |                                                                  |
+| GET             | /api/v1/states/                   | retrieves a list of all State objects                            |
+| GET             | /api/v1/states/<state_id>         | retrieve a State object of state_id                              |
+| POST            | /api/v1/states/                   | creates a State object                                           |
+| PUT             | /api/v1/states/<state_id>         | updates info of State object of state_id                         |
+| DELETE          | /api/v1/states/<state_id>         | deletes a State object of state_id                               |
+| GET             | /api/v1/states/<state_id>/cities  | retrieves a list of all City objects of State object of state_id |
+| GET             | /api/v1/cities/<city_id>          | retrieves a City object of city_id                               |
+| POST            | /api/v1/states/<state_id>/cities  | creates a City object in State object of state_id                |
+| PUT             | /api/v1/cities/<city_id>          | updates info of City object of city_id                           |
+| DELETE          | /apo/v1/cities/<city_id>          | deletes a City object of city_id                                 |
+| GET             | /api/v1/amenities/                | retrieves a list of all Amenity objects                          |
+| GET             | /api/v1/amenities/<amenity_id>    | retrieves an Amenity object of amenity_id                        |
+| POST            | /api/v1/amenities                 | creates an Amenity object                                        |
+| PUT             | /api/v1/amenities/<amenity_id>    | updates info of Amenity object of amenity_id                     |
+| DELETE          | /api/v1/amenities/<amenity_id>    | deletes an Amenity object of amenity_id                          |
+| GET             | /api/v1/users                     | retrieves a list of all User objects                             |
+| GET             | /api/v1/users/<user_id>           | retrieves a User object of user_id                               |
+| POST            | /api/v1/users                     | creates a User object                                            |
+| PUT             | /api/v1/users/<user_id>           | updates info of User object of user_id                           |
+| DELETE          | /api/v1/users/<user_id>           | deletes a User object of user_id                                 |
+| GET             | /api/v1/cities/<city_id>/places   | retrieves a list of all Place objects in City object of city_id  |
+| GET             | /api/v1/places/<place_id>         | retrieves a Place object of place_id                             |
+| POST            | /api/v1/cities/<city_id>/places   | creates a Place object in City object of city_id                 |
+| PUT             | /api/v1/places/<place_id>         | updates info of Place object of place_id                         |
+| DELETE          | /api/v1/places/<place_id>         | deletes a Place object of place_id                               |
+| GET             | /api/v1/places/<place_id>/reviews | retrieves a list of all Review objects of Place of place_id      |
+| GET             | /api/v1/reviews/<review_id>       | retrieves a Review object of review_id                           |
+| POST            | /api/v1/places/<place_id>/reviews | creates a Review object of Place object with place_id            |
+| PUT             | /api/v1/reviews/<review_id>       | updates info of Review object of review_id                       |
+| DELETE          | /api/v1/reviews/<review_id>       | deletes a Review object of review_id                             |
 
 ## Bugs
 No known bugs at this time. 
