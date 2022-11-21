@@ -153,9 +153,9 @@ EOF  all  create  destroy  help  quit  show  update
 | **HTTP Method** |              **URI**              |                            **Action**                            |
 |:---------------:|:---------------------------------:|:----------------------------------------------------------------:|
 |                 |                                   |                                                                  |
-| GET             | /api/v1/states/                   | retrieves a list of all State objects                            |
+| GET             | /api/v1/states                    | retrieves a list of all State objects                            |
 | GET             | /api/v1/states/<state_id>         | retrieve a State object of state_id                              |
-| POST            | /api/v1/states/                   | creates a State object                                           |
+| POST            | /api/v1/states                    | creates a State object                                           |
 | PUT             | /api/v1/states/<state_id>         | updates info of State object of state_id                         |
 | DELETE          | /api/v1/states/<state_id>         | deletes a State object of state_id                               |
 | GET             | /api/v1/states/<state_id>/cities  | retrieves a list of all City objects of State object of state_id |
@@ -163,7 +163,7 @@ EOF  all  create  destroy  help  quit  show  update
 | POST            | /api/v1/states/<state_id>/cities  | creates a City object in State object of state_id                |
 | PUT             | /api/v1/cities/<city_id>          | updates info of City object of city_id                           |
 | DELETE          | /apo/v1/cities/<city_id>          | deletes a City object of city_id                                 |
-| GET             | /api/v1/amenities/                | retrieves a list of all Amenity objects                          |
+| GET             | /api/v1/amenities                 | retrieves a list of all Amenity objects                          |
 | GET             | /api/v1/amenities/<amenity_id>    | retrieves an Amenity object of amenity_id                        |
 | POST            | /api/v1/amenities                 | creates an Amenity object                                        |
 | PUT             | /api/v1/amenities/<amenity_id>    | updates info of Amenity object of amenity_id                     |
