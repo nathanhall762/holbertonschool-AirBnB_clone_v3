@@ -5,7 +5,7 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('views/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def get_status():
     """Retrieves OK message"""
     return jsonify({
@@ -13,7 +13,7 @@ def get_status():
     })
 
 
-@app_views.route('views/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
     """Retrieves the number of objects by type"""
     return jsonify({
