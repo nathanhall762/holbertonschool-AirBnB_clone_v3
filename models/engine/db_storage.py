@@ -16,6 +16,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
@@ -82,14 +83,14 @@ class DBStorage:
         if type(cls) is not str:
             return None
         for obj in self.__objects.values():
-            if obj.id == id and obj.__class__.__name__ == cls:
+            if obj is None:
+                return None
+            elif obj.id == id and obj.__class__.__name__ == cls:
                 return obj
-            return None
-
     def count(self, cls=None):
         """A method to count the number of objects in storage"""
         if type(cls) is not str:
             return 0
         if cls is None:
-            return len(storage.all())
-        return len(storage.all(cls))
+            return len(self.all())
+        return len(self.all(cls))
