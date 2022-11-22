@@ -40,7 +40,8 @@ def create_amenity():
     return  # a 404 error
 
 
-@app_views.route('/api/v1/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/api/v1/amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_amenity():
     """Creates a amenity"""
     return  # a 404 error

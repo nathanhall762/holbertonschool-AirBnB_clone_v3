@@ -6,7 +6,8 @@ from flask import jsonify
 from api.v1.views import app_views
 
 
-@app_views.route('/api/v1/cities', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/states/<state_id>/cities',
+                 methods=['GET'], strict_slashes=False)
 def all_cities():
     """Retrieves all cities"""
     if:  # exists
@@ -34,13 +35,13 @@ def delete_city():
     return  # a 404 error
 
 
-@app_views.route('/api/v1/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/api/v1/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
 def create_city():
     """Creates a city"""
     return  # a 404 error
 
 
-@app_views.route('/api/v1/<city_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/api/v1/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city():
     """Creates a city"""
     return  # a 404 error
