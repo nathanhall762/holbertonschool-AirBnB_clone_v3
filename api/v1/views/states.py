@@ -5,7 +5,7 @@ view for State objects that handles all default RESTful API actions
 from flask import Flask, jsonify
 
 
-@app.route('/api/v1/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/states', methods=['GET'], strict_slashes=False)
 def all_states():
     """Retrieves all states"""
     if:  # exists
@@ -13,7 +13,8 @@ def all_states():
     return  # a 404 error
 
 
-@app.route('/api/v1/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/states/<state_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_state():
     """Retrieves a state"""
     if:  # id is linked to a State object
@@ -21,8 +22,8 @@ def get_state():
     return  # a 404 error
 
 
-@app.route('/api/v1/states/<state_id>',
-           methods=['DELETE'], strict_slashes=False)
+@app_views.route('/api/v1/states/<state_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_state():
     """Deletes a state"""
     if:  # id is linked to a State object
@@ -32,13 +33,13 @@ def delete_state():
     return  # a 404 error
 
 
-@app.route('/api/v1/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/api/v1/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a state"""
     return  # a 404 error
 
 
-@app.route('/api/v1/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/api/v1/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state():
     """Creates a state"""
     return  # a 404 error
