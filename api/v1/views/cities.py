@@ -2,7 +2,8 @@
 """
 view for City objects that handles all default RESTful API actions
 """
-from flask import Flask, jsonify
+from flask import jsonify
+from api.v1.views import app_views
 
 
 @app_views.route('/api/v1/cities', methods=['GET'], strict_slashes=False)

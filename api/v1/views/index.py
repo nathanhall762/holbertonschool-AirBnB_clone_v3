@@ -1,17 +1,26 @@
 #!/usr/bin/python3
 """documentation"""
 from api.v1.views import app_views
+from flask import jsonify
+from models import storage
+
+
+@app_views.route('views/status', methods=['GET'], strict_slashes=False)
+def get_status():
+    """Retrieves OK message"""
+    return jsonify({
+        'status': 'OK'
+    })
 
 
 @app_views.route('views/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
     """Retrieves the number of objects by type"""
-    objects_count_dict = {
-        "amenities": 47,
-        "cities": 36,
-        "places": 154,
-        "reviews": 718,
-        "states": 27,
-        "users": 31
-    }
-    return objects_count_dict
+    return jsonify({
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
+    })
