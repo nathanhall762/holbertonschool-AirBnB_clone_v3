@@ -16,7 +16,7 @@ def all_states():
 
 @app_views.route('/api/v1/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
-def get_state():
+def get_state(state_id):
     """Retrieves a state"""
     #  if:  # id is linked to a State object
     #    return jsonify({})  # return State object of state_id
