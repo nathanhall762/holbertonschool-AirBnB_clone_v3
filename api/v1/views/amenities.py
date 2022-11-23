@@ -23,7 +23,7 @@ def get_amenity(amenity_id):
     data = storage.get("Amenity", amenity_id)
     #    return jsonify({})  # return city object of city_id
     if data:
-        return jsonify((data.to_dict()))
+        return jsonify((data.to_dict(), 200))
     abort(404)  # a 404 error
 
 
