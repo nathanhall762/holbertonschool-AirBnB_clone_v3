@@ -4,6 +4,7 @@ view for user objects that handles all default RESTful API actions
 """
 from flask import jsonify, abort
 from api.v1.views import app_views
+from models import storage
 
 
 @app_views.route('/api/v1/users', methods=['GET'], strict_slashes=False)
@@ -16,10 +17,13 @@ def all_users():
 
 @app_views.route('/api/v1/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
-def get_user():
+def get_user(user_id):
     """Retrieves a user"""
     #  if:  # id is linked to a user object
-    #    return jsonify({})  # return user object of user_id
+    data = storage.get("User", user_id)
+    #    return jsonify({})  # return city object of city_id
+    if data:
+        return jsonify((data.to_dict()))
     abort(404)  # a 404 error
 
 
