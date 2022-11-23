@@ -33,13 +33,10 @@ def get_city(city_id):
 def delete_city(city_id):
     """Deletes a city"""
     city = storage.get("City", city_id)
-    #  if:  # id is linked to a city object
     if city:
         city.delete()
         storage.save()
-    #    return  # empty dictionary
         return (jsonify({}), 200)
-    #  if:  # id is linked to an empty city object
     abort(404)  # a 404 error
 
 
@@ -53,7 +50,7 @@ def create_city():
 @app_views.route('/cities/<city_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
-    """Creates a city"""
+    """Updates a city"""
     city_dict = request.get_json()
     if not city_dict:
         return (jsonify({"error": "Not a JSON"}), 400)
