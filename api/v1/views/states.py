@@ -4,6 +4,7 @@ view for State objects that handles all default RESTful API actions
 """
 from flask import jsonify, abort
 from api.v1.views import app_views
+from models import storage
 
 
 @app_views.route('/api/v1/states', methods=['GET'], strict_slashes=False)
@@ -18,8 +19,10 @@ def all_states():
                  strict_slashes=False)
 def get_state(state_id):
     """Retrieves a state"""
-    #  if:  # id is linked to a State object
-    #    return jsonify({})  # return State object of state_id
+    state = storage.get("City", state_id)
+    #    return jsonify({})  # return city object of city_id
+    if state:
+        return (jsonify(state.to_dict()), 200)
     abort(404)  # a 404 error
 
 
