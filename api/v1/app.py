@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Flask app startup"""
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import environ
@@ -14,8 +14,9 @@ app.register_blueprint(app_views)
 def teardown_db(exception):
     storage.close()
 
+
 @app.errorhandler(404)
-def 404_error(error):
+def error_404(error):
     return jsonify({
         "error": "Not found"
         })
