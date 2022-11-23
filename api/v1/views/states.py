@@ -10,8 +10,9 @@ from models import storage
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
     """Retrieves all states"""
-    #  if:  # exists
-    #     return jsonify({})  # return all state objects
+    state = storage.get("State", state_id)
+    for state in storage.all("State").values():
+        return jsonify({state.to_dict})
     abort(404)  # a 404 error
 
 
@@ -19,7 +20,7 @@ def all_states():
                  strict_slashes=False)
 def get_state(state_id):
     """Retrieves a state"""
-    state = storage.get("City", state_id)
+    state = storage.get("State", state_id)
     #    return jsonify({})  # return city object of city_id
     if state:
         return jsonify(state.to_dict()), 200
