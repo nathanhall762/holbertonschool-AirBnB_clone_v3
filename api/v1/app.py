@@ -9,6 +9,7 @@ from os import environ
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def teardown_db(exception):
     """closes app context"""
@@ -18,11 +19,6 @@ def teardown_db(exception):
 @app.errorhandler(404)
 def not_found(e):
     return make_response(jsonify({"error": "Not found"}, 404))
-def error_404(error):
-    """handles 404"""
-    return jsonify({
-        "error": "Not found"
-        })
 
 
 if __name__ == '__main__':
