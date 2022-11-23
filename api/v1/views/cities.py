@@ -2,7 +2,7 @@
 """
 view for City objects that handles all default RESTful API actions
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 
@@ -49,17 +49,17 @@ def create_city():
     """Creates a city"""
     abort(404)  # a 404 error
 
-# 
-# @app_views.route('/cities/<city_id>',
-#                  methods=['PUT'], strict_slashes=False)
-# def update_city(city_id):
-#     """Creates a city"""
-#     city_dict = request.get_json()
-#     if not city_dict:
-#         return (jsonify({"error": "Not a JSON"}), 400)
-#     city = storage.get("City", city_id)
-#     if city:
-#         city.name = city_dict['name']
-#         city.save()
-#         return (jsonify(city.to_dict()), 200)
-#     abort(404)  # a 404 error
+
+@app_views.route('/cities/<city_id>',
+                 methods=['PUT'], strict_slashes=False)
+def update_city(city_id):
+    """Creates a city"""
+    city_dict = request.get_json()
+    if not city_dict:
+        return (jsonify({"error": "Not a JSON"}), 400)
+    city = storage.get("City", city_id)
+    if city:
+        city.name = city_dict['name']
+        city.save()
+        return (jsonify(city.to_dict()), 200)
+    abort(404)  # a 404 error
