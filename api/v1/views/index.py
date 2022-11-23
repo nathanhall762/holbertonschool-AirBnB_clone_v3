@@ -24,5 +24,3 @@ def get_stats():
         "states": storage.count("State"),
         "users": storage.count("User")
     })
-
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
