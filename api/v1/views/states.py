@@ -15,7 +15,7 @@ def all_states():
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['GET'],
+@app_views.route('/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
 def get_state(state_id):
     """Retrieves a state"""
@@ -26,14 +26,18 @@ def get_state(state_id):
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/states/<state_id>',
+@app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_state():
+def delete_state(state_id):
     """Deletes a state"""
-    # if:  # id is linked to a State object
-    #    # return jsonify({})  # return all state objects
-    # if:  # id is linked to an empty state object
-    #    # return  # empty dictionary
+    state = storage.get("City", state_id)
+    #  if:  # id is linked to a city object
+    if state:
+        state.delete()
+        storage.save()
+    #    return  # empty dictionary
+        return (jsonify({}), 200)
+    #  if:  # id is linked to an empty city object
     abort(404)  # a 404 error
 
 
