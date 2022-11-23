@@ -4,6 +4,7 @@ view for City objects that handles all default RESTful API actions
 """
 from flask import jsonify, abort
 from api.v1.views import app_views
+from models import storage
 
 
 @app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
@@ -16,10 +17,13 @@ def all_amenities():
 
 @app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def get_amenity():
+def get_amenity(amenity_id):
     """Retrieves a amenity"""
     #  if:  # id is linked to a amenity object
-    #    return jsonify({})  # return amenity object of amenity_id
+    data = storage.get("Amenity", amenity_id)
+    #    return jsonify({})  # return city object of city_id
+    if data:
+        return jsonify((data.to_dict()))
     abort(404)  # a 404 error
 
 
