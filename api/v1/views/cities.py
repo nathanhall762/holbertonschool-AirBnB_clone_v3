@@ -24,7 +24,7 @@ def get_city(city_id):
     cities = storage.get("City", city_id)
     #    return jsonify({})  # return city object of city_id
     if cities:
-        return jsonify((cities.to_dict(), 200))
+        return (jsonify(cities.to_dict()), 200)
     abort(404)  # a 404 error
 
 
@@ -61,5 +61,5 @@ def update_city(city_id):
     if city:
         city.name = city_dict['name']
         city.save()
-        return jsonify((city.to_dict(), 200))
+        return (jsonify(city.to_dict()), 200)
     abort(404)  # a 404 error
