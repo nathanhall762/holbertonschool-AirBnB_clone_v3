@@ -7,7 +7,7 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('/api/v1/states/<state_id>/cities',
+@app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def all_cities():
     """Retrieves all cities"""
@@ -16,7 +16,7 @@ def all_cities():
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/cities/<city_id>', methods=['GET'],
+@app_views.route('/cities/<city_id>', methods=['GET'],
                  strict_slashes=False)
 def get_city(city_id):
     """Retrieves a city"""
@@ -28,7 +28,7 @@ def get_city(city_id):
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/cities/<city_id>',
+@app_views.route('/cities/<city_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Deletes a city"""
@@ -43,14 +43,14 @@ def delete_city(city_id):
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/states/<state_id>/cities',
+@app_views.route('/states/<state_id>/cities',
                  methods=['POST'], strict_slashes=False)
 def create_city():
     """Creates a city"""
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/cities/<city_id>',
+@app_views.route('/cities/<city_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_city():
     """Creates a city"""
