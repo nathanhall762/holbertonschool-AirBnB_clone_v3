@@ -10,10 +10,10 @@ from models import storage
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
     """Retrieves all states"""
-    state = storage.get("State", state_id)
+    state_list = []
     for state in storage.all("State").values():
-        return jsonify({state.to_dict})
-    abort(404)  # a 404 error
+        state_list.append(state.to_dict())
+    return jsonify(state_list)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'],
