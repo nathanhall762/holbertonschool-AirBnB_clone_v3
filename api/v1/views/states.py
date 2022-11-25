@@ -21,9 +21,10 @@ def all_states():
 def get_state(state_id=None):
     """Retrieves a state"""
     state = storage.get("State", state_id)
-    if state:
+    if state is None:
+        abort(404)  # a 404 error
+    else:
         return jsonify(state.to_dict()), 200
-    abort(404)  # a 404 error
 
 
 @app_views.route('/states/<state_id>',
@@ -31,11 +32,12 @@ def get_state(state_id=None):
 def delete_state(state_id=None):
     """Deletes a state"""
     state = storage.get("City", state_id)
-    if state:
-        state.delete()
+    if state is None:
+        abort(404)  # a 404 error
+    else:
+        storage.delete(state)
         storage.save()
         return jsonify({}), 200
-    abort(404)  # a 404 error
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -50,23 +52,24 @@ def create_state():
         new_state = state.State(**state)
         storage.new(new_state)
         storage.save()
-        return jsonify(state.to_dict()), 201
+        return jsonify(new_state.to_dict()), 201
 
 
 @app_views.route('/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id=None):
     """Creates a state"""
     state = storage.get("State", state_id)
-    if state:
-        update = request.get_json(silent=True)
-        if update is None:
-            abort(400, "Not a JSON")
-        else:
-            for key, value in update.items():
-                if key in ['id', 'created_at', 'updated_at']:
-                    pass
-                else:
-                    setattr(state, key, value)
-            storage.save()
-            response = state.to_dict()
-    abort(404)  # a 404 error
+    if state is None:
+        abort(404)
+    update = request.get_json(silent=True)
+    if update is None:
+        abort(400, "Not a JSON")
+    else:
+        for key, value in update.items():
+            if key in ['id', 'created_at', 'updated_at']:
+                pass
+            else:
+                setattr(state, key, value)
+        storage.save()
+        response = state.to_dict()
+        return jsonify(response), 200
