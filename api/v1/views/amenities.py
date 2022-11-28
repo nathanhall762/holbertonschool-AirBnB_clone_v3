@@ -11,9 +11,11 @@ from models.amenity import Amenity
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def all_amenities():
     """Retrieves all amenities"""
-    #  if:  # exists
-    #    return jsonify({})  # return all amenity objects
-    abort(404)  # a 404 error
+    s = storage.all(Amenity)
+    state_list = []
+    for state in s.values():
+        state_list.append(state.to_dict())
+    return jsonify(state_list)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
