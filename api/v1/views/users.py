@@ -30,13 +30,14 @@ def get_user(user_id):
 
 @app_views.route('/users/<user_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_user():
+def delete_user(user_id=None):
     """Deletes a user"""
-    #  if:  # id is linked to a user object
-    #    return jsonify({})  # return all user objects
-    #  if:  # id is linked to an empty user object
-    #    return  # empty dictionary
-    abort(404)  # a 404 error
+    s = storage.get(User, user_id)
+    if s is None:
+        abort(404)  # a 404 error
+    storage.delete(s)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
