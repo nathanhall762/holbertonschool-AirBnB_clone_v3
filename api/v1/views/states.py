@@ -38,7 +38,7 @@ def delete_state(state_id=None):
     else:
         storage.delete(state)
         storage.save()
-        return jsonify({}), 200
+        return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -73,4 +73,4 @@ def update_state(state_id=None):
                 setattr(state, key, value)
         storage.save()
         response = state.to_dict()
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
