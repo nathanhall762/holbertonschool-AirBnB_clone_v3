@@ -2,17 +2,28 @@
 """
 view for review objects that handles all default RESTful API actions
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
+from models import storage
+from models.place import Place
+from models.review import Review
 
 
 @app_views.route('/api/v1/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
-def all_reviews():
+def all_reviews(place_id=None):
     """Retrieves all reviews"""
-    #  if:  # exists
-    #    return jsonify({})  # return all review objects
-    abort(404)  # a 404 error
+    s = storage.all(Place)
+    review_list = None
+    return_list = []
+    for p in s.values():
+        if p.id == place_id:
+            review_list = p.cities
+    if review_list is None:
+        abort(404)
+    for r in review_list:
+        return_list.append(r.to_dict())
+    return jsonify(return_list)
 
 
 @app_views.route('/api/v1/reviews/<review_id>', methods=['GET'],
