@@ -12,9 +12,9 @@ from models.place import Place
                  methods=['GET'], strict_slashes=False)
 def all_places():
     """Retrieves all places"""
-    places = storage.get(City, city_id)
+    places = storage.get(State, state_id)
     places_list = []
-    for place in places:
+    for place in places.cities:
         places_list.append(place.to_dict())
     return jsonify(place_list)
 
