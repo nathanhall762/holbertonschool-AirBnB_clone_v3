@@ -67,12 +67,12 @@ def create_city(state_id=None):
                  methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """Updates a city"""
-    # city_dict = request.get_json()
-    # if not city_dict:
-    #     return (jsonify({"error": "Not a JSON"}), 400)
-    # city = storage.get("City", city_id)
-    # if city:
-    #     city.name = city_dict['name']
-    #     city.save()
-    #     return (jsonify(city.to_dict()), 200)
-    # abort(404)  # a 404 error
+    city_dict = request.get_json()
+    if not city_dict:
+        return (jsonify({"error": "Not a JSON"}), 400)
+    city = storage.get("City", city_id)
+    if city:
+        city.name = city_dict['name']
+        city.save()
+        return (jsonify(city.to_dict()), 200)
+    abort(404)  # a 404 error
