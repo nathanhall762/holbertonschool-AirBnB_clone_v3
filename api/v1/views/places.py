@@ -13,17 +13,11 @@ from models.city import City
                  methods=['GET'], strict_slashes=False)
 def all_places(city_id):
     """Retrieves all places"""
-    s = storage.all(City)
-    cities_list = None
-    return_list = []
-    for state in s.values():
-        if state.id == city_id:
-            cities_list = state.cities
-    if cities_list is None:
-        abort(404)
-    for city in cities_list:
-        return_list.append(city.to_dict())
-    return jsonify(return_list)
+    places = storage.get(State, state_id)
+    places_list = []
+    for place in places.cities:
+        places_list.append(place.to_dict())
+    return jsonify(place_list)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'],
@@ -52,7 +46,15 @@ def delete_place(place_id=None):
                  methods=['POST'], strict_slashes=False)
 def create_place():
     """Creates a place"""
-    abort(404)  # a 404 error
+    req = request.get_json(silent=True)
+    if req is None:
+        abort(400, "Not a JSON")
+    if 'name' not in req.keys():
+        abort(400, "Missing name")
+    new_place = Place(**req)
+    storage.new(new_place)
+    storage.save()
+    return make_response(jsonify(new_place.to_dict()), 201)
 
 
 @app_views.route('/places/<place_id>',
