@@ -34,12 +34,12 @@ def get_city(city_id):
                  methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id=None):
     """Deletes a city"""
-    # s = storage.get(City, city_id)
-    # if s is None:
-    #     abort(404)  # a 404 error
-    # storage.delete(s)
-    # storage.save()
-    # return make_response(jsonify({}), 200)
+    s = storage.get(City, city_id)
+    if s is None:
+        abort(404)  # a 404 error
+    storage.delete(s)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities',
