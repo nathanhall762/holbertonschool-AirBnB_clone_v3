@@ -17,7 +17,7 @@ def all_cities():
     # # for city in s.cities.values():
     # #     cities_list.append(city.to_dict())
     # # return jsonify(cities_list)
-    # abort(404)
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
