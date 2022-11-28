@@ -38,13 +38,14 @@ def get_review(review_id=None):
 
 @app_views.route('/api/v1/reviews/<review_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_review():
+def delete_review(review_id=None):
     """Deletes a review"""
-    #  if:  # id is linked to a review object
-    #    return jsonify({})  # return all review objects
-    #  if:  # id is linked to an empty review object
-    #    return  # empty dictionary
-    abort(404)  # a 404 error
+    s = storage.get(Review, review_id)
+    if s is None:
+        abort(404)  # a 404 error
+    storage.delete(s)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/api/v1/places/<place_id>/reviews',
