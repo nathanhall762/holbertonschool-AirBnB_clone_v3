@@ -12,9 +12,11 @@ from models.place import Place
                  methods=['GET'], strict_slashes=False)
 def all_places():
     """Retrieves all places"""
-    #  if:  # exists
-    #    return jsonify({})  # return all place objects
-    abort(404)  # a 404 error
+    places = storage.get(City, city_id)
+    places_list = []
+    for place in places:
+        places_list.append(place.to_dict())
+    return jsonify(place_list)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'],
@@ -43,7 +45,15 @@ def delete_place(place_id=None):
                  methods=['POST'], strict_slashes=False)
 def create_place():
     """Creates a place"""
-    abort(404)  # a 404 error
+    req = request.get_json(silent=True)
+    if req is None:
+        abort(400, "Not a JSON")
+    if 'name' not in req.keys():
+        abort(400, "Missing name")
+    new_place = Place(**req)
+    storage.new(new_place)
+    storage.save()
+    return make_response(jsonify(new_place.to_dict()), 201)
 
 
 @app_views.route('/places/<place_id>',
