@@ -32,11 +32,11 @@ def get_place(place_id=None):
 def delete_place(place_id=None):
     """Deletes a place"""
     s = storage.get(Place, place_id)
-    if s is None:
-        abort(404)  # a 404 error
-    storage.delete(s)
-    storage.save()
-    return make_response(jsonify({}), 200)
+    if s is not None:
+        storage.delete(s)
+        storage.save()
+        return make_response(jsonify({}), 200)
+    abort(404)  # a 404 error
 
 
 @app_views.route('/cities/<city_id>/places',
