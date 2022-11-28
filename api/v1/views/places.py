@@ -70,18 +70,12 @@ def create_place(city_id):
                  methods=['PUT'], strict_slashes=False)
 def update_place(place_id=None):
     """Creates a place"""
-    s = storage.get(Place, place_id)
-    if s is None:
-        abort(404)
-    update = request.get_json(silent=True)
-    if update is None:
-        abort(400, "Not a JSON")
-    else:
-        for key, value in update.items():
-            if key in ['id', 'created_at', 'updated_at']:
-                pass
-            else:
-                setattr(s, key, value)
-        storage.save()
-        response = s.to_dict()
-        return make_response(jsonify(response), 200)
+    place_dict = request.get_json()
+    if not place_dict:
+        return (jsonify({"error": "Not a JSON"}), 400)
+    p = storage.get(Place, place_id)
+    if p:
+        p.name = place_dict['name']
+        p.save()
+        return (jsonify(p.to_dict()), 200)
+    abort(404)  # a 404 error
