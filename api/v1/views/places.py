@@ -48,6 +48,20 @@ def create_place():
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_place():
+def update_place(place_id=None):
     """Creates a place"""
-    abort(404)  # a 404 error
+    s = storage.get(Place, place_id)
+    if s is None:
+        abort(404)
+    update = request.get_json(silent=True)
+    if update is None:
+        abort(400, "Not a JSON")
+    else:
+        for key, value in update.items():
+            if key in ['id', 'created_at', 'updated_at']:
+                pass
+            else:
+                setattr(s, key, value)
+        storage.save()
+        response = s.to_dict()
+        return make_response(jsonify(response), 200)
