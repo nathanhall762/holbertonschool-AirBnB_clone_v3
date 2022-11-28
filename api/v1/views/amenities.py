@@ -30,13 +30,14 @@ def get_amenity(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_amenity():
+def delete_amenity(amenity_id):
     """Deletes a amenity"""
-    #  if:  # id is linked to a amenity object
-    #    return jsonify({})  # return all amenity objects
-    #  if:  # id is linked to an empty amenity object
-    #    return  # empty dictionary
-    abort(404)  # a 404 error
+    s = storage.get(Amenity, amenity_id)
+    if s is None:
+        abort(404)  # a 404 error
+    storage.delete(s)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
