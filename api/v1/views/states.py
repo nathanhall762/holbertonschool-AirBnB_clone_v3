@@ -57,7 +57,7 @@ def create_state():
 @app_views.route('/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id=None):
     """Creates a state"""
-    state = storage.get(State, state_id)
+    state = request.get(State, state_id)
     if state is None:
         abort(404)
     update = request.get_json(silent=True)
