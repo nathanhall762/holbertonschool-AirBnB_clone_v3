@@ -39,14 +39,36 @@ def delete_amenity():
     abort(404)  # a 404 error
 
 
-# @app_views.route('/api/v1/amenities', methods=['POST'], strict_slashes=False)
-# def create_amenity():
-#     """Creates a amenity"""
-#     abort(404)  # a 404 error
+@app_views.route('/api/v1/amenities', methods=['POST'], strict_slashes=False)
+def create_amenity():
+    """Creates a amenity"""
+    req = request.get_json(silent=True)
+    if req is None:
+        abort(400, "Not a JSON")
+    if 'name' not in req.keys():
+        abort(400, "Missing name")
+    new_state = Amenity(**req)
+    storage.new(new_state)
+    storage.save()
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
-# @app_views.route('/api/v1/amenities/<amenity_id>',
-#                  methods=['PUT'], strict_slashes=False)
-# def update_amenity():
-#     """Creates a amenity"""
-#     abort(404)  # a 404 error
+@app_views.route('/api/v1/amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
+def update_amenity(amenity_id):
+    """Creates a amenity"""
+    state = storage.get(Amenity, amenity_id)
+    if state is None:
+        abort(404)
+    update = request.get_json(silent=True)
+    if update is None:
+        abort(400, "Not a JSON")
+    else:
+        for key, value in update.items():
+            if key in ['id', 'created_at', 'updated_at']:
+                pass
+            else:
+                setattr(state, key, value)
+        storage.save()
+        response = state.to_dict()
+        return make_response(jsonify(response), 200)
