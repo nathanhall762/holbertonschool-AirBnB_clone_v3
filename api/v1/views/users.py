@@ -2,50 +2,76 @@
 """
 view for user objects that handles all default RESTful API actions
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
+from models.user import User
 
 
-@app_views.route('/api/v1/users', methods=['GET'], strict_slashes=False)
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
 def all_users():
     """Retrieves all users"""
-    #  if:  # exists
-    #    return jsonify({})  # return all user objects
-    abort(404)  # a 404 error
+    s = storage.all(User)
+    state_list = []
+    for state in s.values():
+        state_list.append(state.to_dict())
+    return jsonify(state_list)
 
 
-@app_views.route('/api/v1/users/<user_id>', methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
 def get_user(user_id):
     """Retrieves a user"""
-    #  if:  # id is linked to a user object
-    data = storage.get("User", user_id)
-    #    return jsonify({})  # return city object of city_id
-    if data:
-        return jsonify((data.to_dict()))
-    abort(404)  # a 404 error
+    s = storage.get(User, user_id)
+    if s is None:
+        abort(404)  # a 404 error
+    return jsonify(s.to_dict()), 200
 
 
-@app_views.route('/api/v1/users/<user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_user():
+def delete_user(user_id=None):
     """Deletes a user"""
-    #  if:  # id is linked to a user object
-    #    return jsonify({})  # return all user objects
-    #  if:  # id is linked to an empty user object
-    #    return  # empty dictionary
-    abort(404)  # a 404 error
+    s = storage.get(User, user_id)
+    if s is None:
+        abort(404)  # a 404 error
+    storage.delete(s)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
-@app_views.route('/api/v1/users', methods=['POST'], strict_slashes=False)
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """Creates a user"""
-    abort(404)  # a 404 error
+    req = request.get_json(silent=True)
+    if req is None:
+        abort(400, "Not a JSON")
+    if 'email' not in req.keys():
+        abort(400, "Missing email")
+    if 'password' not in req.keys():
+        abort(400, "Missing password")
+    new_state = User(**req)
+    storage.new(new_state)
+    storage.save()
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
-@app_views.route('/api/v1/users/<user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_user():
+def update_user(user_id=None):
     """Creates a user"""
-    abort(404)  # a 404 error
+    s = storage.get(User, user_id)
+    if s is None:
+        abort(404)
+    update = request.get_json(silent=True)
+    if update is None:
+        abort(400, "Not a JSON")
+    else:
+        for key, value in update.items():
+            if key in ['id', 'created_at', 'updated_at']:
+                pass
+            else:
+                setattr(s, key, value)
+        storage.save()
+        response = s.to_dict()
+        return make_response(jsonify(response), 200)
