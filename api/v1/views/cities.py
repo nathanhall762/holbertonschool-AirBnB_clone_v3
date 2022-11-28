@@ -11,9 +11,11 @@ from models import storage
                  methods=['GET'], strict_slashes=False)
 def all_cities():
     """Retrieves all cities"""
-    #  if:  # exists
-    #    return jsonify({})  # return all city objects
-    abort(404)  # a 404 error
+    s = storage.all(City)
+    cities_list = []
+    for city in s.cities.values():
+        cities_list.append(city.to_dict())
+    return jsonify(cities_list)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
@@ -34,7 +36,7 @@ def delete_city(city_id):
     """Deletes a city"""
     city = storage.get("City", city_id)
     if city:
-        city.delete()
+        city.delete(city)
         storage.save()
         return (jsonify({}), 200)
     abort(404)  # a 404 error
@@ -44,7 +46,21 @@ def delete_city(city_id):
                  methods=['POST'], strict_slashes=False)
 def create_city():
     """Creates a city"""
-    abort(404)  # a 404 error
+    city = storage.get("City", state_id)
+    if city is None:
+        abort(404)
+    update = request.get_json(silent=True)
+    if update is None:
+        abort(400, "Not a JSON")
+    else:
+        for key, value in update.items():
+            if key in ['id', 'created_at', 'updated_at']:
+                pass
+            else:
+                setattr(city, key, value)
+        storage.save()
+        response = city.to_dict()
+        return make_response(jsonify(response), 200)
 
 
 @app_views.route('/cities/<city_id>',
