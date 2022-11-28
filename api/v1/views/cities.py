@@ -13,13 +13,6 @@ from models.state import State
                  methods=['GET'], strict_slashes=False)
 def all_cities(state_id):
     """Retrieves all cities"""
-
-    c = storage.get("State", state_id)
-    cities_list = []
-    for city in c.cities.values():
-        cities_list.append(city.to_dict())
-    return jsonify(cities_list)
-
     s = storage.all(State)
     cities_list = None
     return_list = []
