@@ -54,10 +54,10 @@ def create_state():
     return make_response(jsonify(new_state.to_dict()), 201)
 
 
-@app_views.route('/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id=None):
     """Creates a state"""
-    state = request.get(State, state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     update = request.get_json(silent=True)
