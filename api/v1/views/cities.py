@@ -53,7 +53,7 @@ def delete_city(city_id=None):
 def create_city(state_id):
     """Creates a city"""
     state = storage.get(State, state_id)
-    update = request.get_json()
+    update = request.get_json(silent=True)
     if not update:
         return jsonify({'error': 'Not a JSON'}), 400
     elif 'name' not in update:
