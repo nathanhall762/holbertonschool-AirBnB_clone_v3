@@ -73,7 +73,7 @@ def update_city(city_id):
     city_dict = request.get_json()
     if not city_dict:
         return (jsonify({"error": "Not a JSON"}), 400)
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city:
         city.name = city_dict['name']
         city.save()

@@ -9,7 +9,7 @@ from models.place import Place
 from models.review import Review
 
 
-@app_views.route('/api/v1/places/<place_id>/reviews',
+@app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def all_reviews(place_id):
     """Retrieves all reviews"""
@@ -26,7 +26,7 @@ def all_reviews(place_id):
     return jsonify(return_list)
 
 
-@app_views.route('/api/v1/reviews/<review_id>', methods=['GET'],
+@app_views.route('/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
 def get_review(review_id):
     """Retrieves a review"""
@@ -36,7 +36,7 @@ def get_review(review_id):
     return jsonify(s.to_dict()), 200
 
 
-@app_views.route('/api/v1/reviews/<review_id>',
+@app_views.route('/reviews/<review_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_review(review_id=None):
     """Deletes a review"""
@@ -48,7 +48,7 @@ def delete_review(review_id=None):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/api/v1/places/<place_id>/reviews',
+@app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
 def create_review(place_id):
     """Creates a review"""
@@ -66,8 +66,16 @@ def create_review(place_id):
     abort(404)
 
 
-@app_views.route('/api/v1/reviews/<review_id>',
+@app_views.route('/reviews/<review_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_review():
+def update_review(review_id):
     """Creates a review"""
+    review_dict = request.get_json()
+    if not review_dict:
+        return (jsonify({"error": "Not a JSON"}), 400)
+    r = storage.get(Review, review_id)
+    if r:
+        r.name = review_dict['name']
+        r.save()
+        return (jsonify(r.to_dict()), 200)
     abort(404)  # a 404 error
