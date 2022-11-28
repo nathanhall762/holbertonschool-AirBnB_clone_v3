@@ -28,11 +28,12 @@ def all_reviews(place_id=None):
 
 @app_views.route('/api/v1/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
-def get_review():
+def get_review(review_id=None):
     """Retrieves a review"""
-    #  if:  # id is linked to a review object
-    #    return jsonify({})  # return review object of review_id
-    abort(404)  # a 404 error
+    s = storage.get(Review, review_id)
+    if s is None:
+        abort(404)  # a 404 error
+    return jsonify(s.to_dict()), 200
 
 
 @app_views.route('/api/v1/reviews/<review_id>',
