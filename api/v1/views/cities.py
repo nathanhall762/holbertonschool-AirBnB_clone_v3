@@ -11,9 +11,9 @@ from models import storage
                  methods=['GET'], strict_slashes=False)
 def all_cities():
     """Retrieves all cities"""
-    s = storage.all(City)
+    c = storage.get("State", state_id)
     cities_list = []
-    for city in s.cities.values():
+    for city in c.cities.values():
         cities_list.append(city.to_dict())
     return jsonify(cities_list)
 
