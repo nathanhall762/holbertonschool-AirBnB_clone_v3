@@ -59,7 +59,7 @@ def create_city(state_id):
     elif 'name' not in update:
         return jsonify({'error': 'Missing Name'}), 400
     if state:
-        update['state_id'] = state.id
+        update['state_id'] = state_id
         city = City(**update)
         city.save()
         return jsonify(city.to_dict()), 201
