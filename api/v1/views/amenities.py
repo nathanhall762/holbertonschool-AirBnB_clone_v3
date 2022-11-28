@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-view for City objects that handles all default RESTful API actions
+view for Amenity objects that handles all default RESTful API actions
 """
 from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
@@ -20,7 +20,7 @@ def all_amenities():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def get_amenity(amenity_id):
+def get_amenity(amenity_id=None):
     """Retrieves a amenity"""
     state = storage.get(Amenity, amenity_id)
     if state is None:
@@ -56,7 +56,7 @@ def create_amenity():
 
 @app_views.route('/amenities/<amenity_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_amenity(amenity_id):
+def update_amenity(amenity_id=None):
     """Creates a amenity"""
     state = storage.get(Amenity, amenity_id)
     if state is None:
