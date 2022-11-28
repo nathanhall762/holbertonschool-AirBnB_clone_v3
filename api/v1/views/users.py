@@ -43,7 +43,17 @@ def delete_user(user_id=None):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """Creates a user"""
-    abort(404)  # a 404 error
+    req = request.get_json(silent=True)
+    if req is None:
+        abort(400, "Not a JSON")
+    if 'email' not in req.keys():
+        abort(400, "Missing email")
+    if 'password' not in req.keys():
+        abort(400, "Missing password")
+    new_state = User(**req)
+    storage.new(new_state)
+    storage.save()
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 @app_views.route('/users/<user_id>',
