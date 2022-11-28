@@ -22,7 +22,7 @@ def all_users():
                  strict_slashes=False)
 def get_user(user_id):
     """Retrieves a user"""
-    s = storage.get(Amenity, amenity_id)
+    s = storage.get(User, user_id)
     if s is None:
         abort(404)  # a 404 error
     return jsonify(s.to_dict()), 200
