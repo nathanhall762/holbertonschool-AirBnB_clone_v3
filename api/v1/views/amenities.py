@@ -56,7 +56,7 @@ def create_amenity():
 
 @app_views.route('/api/v1/amenities/<amenity_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_amenity():
+def update_amenity(amenity_id):
     """Creates a amenity"""
     state = storage.get(Amenity, amenity_id)
     if state is None:
