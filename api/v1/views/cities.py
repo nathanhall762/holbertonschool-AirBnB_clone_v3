@@ -6,18 +6,24 @@ from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
 from models.city import City
+from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
-def all_cities():
+def all_cities(state_id):
     """Retrieves all cities"""
-    # # s = storage.all(City)
-    # # cities_list = []
-    # # for city in s.cities.values():
-    # #     cities_list.append(city.to_dict())
-    # # return jsonify(cities_list)
-    abort(404)
+    s = storage.all(State)
+    cities_list = None
+    return_list = []
+    for state in s.values():
+        if state.id == state_id:
+            cities_list = state.cities
+    if cities_list is None:
+        abort(404)
+    for city in cities_list:
+        return_list.append(city.to_dict())
+    return jsonify(return_list)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
