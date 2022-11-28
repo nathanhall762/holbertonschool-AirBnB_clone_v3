@@ -8,7 +8,7 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def all_amenities():
     """Retrieves all amenities"""
     #  if:  # exists
@@ -16,7 +16,7 @@ def all_amenities():
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'],
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
 def get_amenity(amenity_id):
     """Retrieves a amenity"""
@@ -28,7 +28,7 @@ def get_amenity(amenity_id):
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>',
+@app_views.route('/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_amenity():
     """Deletes a amenity"""
