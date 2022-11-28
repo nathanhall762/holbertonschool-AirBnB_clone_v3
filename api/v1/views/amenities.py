@@ -20,12 +20,10 @@ def all_amenities():
                  strict_slashes=False)
 def get_amenity(amenity_id):
     """Retrieves a amenity"""
-    #  if:  # id is linked to a amenity object
-    data = storage.get("Amenity", amenity_id)
-    #    return jsonify({})  # return city object of city_id
-    if data:
-        return jsonify((data.to_dict(), 200))
-    abort(404)  # a 404 error
+    state = storage.get(Amenity, amenity_id)
+    if state is None:
+        abort(404)  # a 404 error
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/amenities/<amenity_id>',
