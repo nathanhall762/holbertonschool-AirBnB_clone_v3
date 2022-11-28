@@ -22,12 +22,10 @@ def all_users():
                  strict_slashes=False)
 def get_user(user_id):
     """Retrieves a user"""
-    #  if:  # id is linked to a user object
-    data = storage.get("User", user_id)
-    #    return jsonify({})  # return city object of city_id
-    if data:
-        return jsonify((data.to_dict()))
-    abort(404)  # a 404 error
+    s = storage.get(Amenity, amenity_id)
+    if s is None:
+        abort(404)  # a 404 error
+    return jsonify(s.to_dict()), 200
 
 
 @app_views.route('/users/<user_id>',
