@@ -39,10 +39,10 @@ def delete_amenity():
     abort(404)  # a 404 error
 
 
-@app_views.route('/api/v1/amenities', methods=['POST'], strict_slashes=False)
-def create_amenity():
-    """Creates a amenity"""
-    abort(404)  # a 404 error
+# @app_views.route('/api/v1/amenities', methods=['POST'], strict_slashes=False)
+# def create_amenity():
+#     """Creates a amenity"""
+#     abort(404)  # a 404 error
 
 
 # @app_views.route('/api/v1/amenities/<amenity_id>',
