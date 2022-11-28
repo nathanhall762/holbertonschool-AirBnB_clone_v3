@@ -24,10 +24,10 @@ def all_cities():
                  strict_slashes=False)
 def get_city(city_id):
     """Retrieves a city"""
-    # s = storage.get(City, city_id)
-    # if s is None:
-    #     abort(404)  # a 404 error
-    # return jsonify(s.to_dict()), 200
+    s = storage.get(City, city_id)
+    if s is None:
+        abort(404)  # a 404 error
+    return jsonify(s.to_dict()), 200
 
 
 @app_views.route('/cities/<city_id>',
