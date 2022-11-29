@@ -113,3 +113,16 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_no_class(self):
+        """Test that tests the instance a class is not provided"""
+        self.assertEqual(storage.get("NoMAS", "1738"), None)
+
+    def test_no_id(self):
+        """Test that tests the instance an id is not ptovided"""
+        self.assertEqual(storage.get("04061993", "City") None)
+
+    def too_many_args(self):
+        """Test that raises error when too many arguments are provided"""
+        with self.assertRaises(TypeError):
+            storage.count("3", "4")
