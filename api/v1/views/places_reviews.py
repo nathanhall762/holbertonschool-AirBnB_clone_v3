@@ -58,6 +58,8 @@ def create_review(place_id):
         return jsonify({'error': 'Not a JSON'}), 400
     elif 'name' not in update:
         return jsonify({'error': 'Missing Name'}), 400
+    elif 'user_id' not in update:
+        return jsonify({'error': 'Missing user_id'}), 400
     if p:
         update['state_id'] = place_id
         city = Review(**update)
