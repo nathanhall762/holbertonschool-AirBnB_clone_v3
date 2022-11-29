@@ -78,9 +78,8 @@ def update_place(place_id=None):
         abort(400, "Not a JSON")
     else:
         for key, value in update.items():
-            if key in ['id', 'created_at', 'updated_at']:
-                pass
-            else:
+            if key not in ['id', 'user_id', 'place_id',
+                           'created_at', 'updated_at']:
                 setattr(state, key, value)
         storage.save()
         response = state.to_dict()
