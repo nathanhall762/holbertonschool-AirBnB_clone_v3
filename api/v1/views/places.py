@@ -50,7 +50,7 @@ def delete_place(place_id=None):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def create_place(city_id):
+def create_place(city_id=None):
     """Creates a place"""
     state = storage.get(City, city_id)
     if not state:
