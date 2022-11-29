@@ -93,7 +93,7 @@ class TestFileStorage(unittest.TestCase):
         """Test that ensures accuracy in getting objects"""
         obj = State(name="Test")
         obj.save()
-        obj_selected = models.storage.get('State', obj.id)
+        obj_selected = storage.get('State', obj.id)
         self.assertIsNot(obj, obj_selected)
         obj.delete()
 
@@ -102,18 +102,18 @@ class TestFileStorage(unittest.TestCase):
         """Test that ensures accuracy in getting objects"""
         obj = State(name="Test")
         obj.save()
-        obj_selected = models.storage.get('ls', obj.id)
+        obj_selected = storage.get('ls', obj.id)
         self.assertIsNot(obj, obj_selected)
         obj.delete()
 
     @unittest.skipif(models.storage_t != 'db', "not testing db storage")
     def test_count_method(self):
         """Test that counts all objects and selected objects accurately"""
-        all_objs = len(models.storage.all())
-        selected_obj_count = models.storage.count()
+        all_objs = len(storage.all())
+        selected_obj_count = storage.count()
         self.assertEqual(selected_obj_count, all_objs)
-        selected_obj_count = models.storage.count('State')
-        all_objs = len(models.storage.all('State'))
+        selected_obj_count = storage.count('State')
+        all_objs = len(storage.all('State'))
         self.assertEqual(selected_obj_count, all_objs)
 
     def test_no_class(self):
