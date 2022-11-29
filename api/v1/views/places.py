@@ -18,26 +18,27 @@ def all_places(city_id):
     return_list = []
     for city in s.values():
         if city.id == city_id:
-            cities_list = city.cities
-    if cities_list is not None:
-        for place in cities_list:
-            return jsonify({place.to_dict})
-    abort(404)
+            place_list = city.places
+    if place_list is None:
+        abort(404)
+    for place in place_list:
+        return_list.append(place.to_dict())
+    return jsonify(return_list)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'],
                  strict_slashes=False)
-def get_place(place_id):
+def get_place(place_id=None):
     """Retrieves a place"""
     s = storage.get(Place, place_id)
-    if s is not None:
-        return jsonify(s.to_dict(), 200)
-    abort(404)
+    if s is None:
+        abort(404)  # a 404 error
+    return jsonify(s.to_dict()), 200
 
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_place(place_id):
+def delete_place(place_id=None):
     """Deletes a place"""
     s = storage.get(Place, place_id)
     if s is not None:
