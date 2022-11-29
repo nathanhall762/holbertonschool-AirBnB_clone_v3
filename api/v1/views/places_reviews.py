@@ -83,5 +83,5 @@ def update_review(review_id):
     if r:
         r.name = review_dict['name']
         r.save()
-        return (jsonify(r.to_dict()), 200)
+        return make_response(jsonify(r.to_dict()), 200)
     abort(404)  # a 404 error
