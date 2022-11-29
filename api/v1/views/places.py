@@ -53,7 +53,7 @@ def delete_place(place_id=None):
 def create_place(city_id=None):
     """Creates a place"""
     state = storage.get(City, city_id)
-    if not state:
+    if state is None:
         abort(404)
     update = request.get_json(silent=True)
     if not update:
