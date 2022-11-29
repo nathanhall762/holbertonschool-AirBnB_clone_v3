@@ -51,39 +51,35 @@ def delete_place(place_id):
                  methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """Creates a place"""
-    city_dict = storage.get(City, city_id)
+    state = storage.get(City, city_id)
     update = request.get_json(silent=True)
     if not update:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    if 'name' not in update.keys:
-        return make_response(jsonify({'error': 'Missing name'}), 400)
-    if 'user_id' not in update:
-        return jsonify({'error': 'Missing user_id'}), 400
-    if city_dict:
+        return jsonify({'error': 'Not a JSON'}), 400
+    elif 'name' not in update:
+        return jsonify({'error': 'Missing Name'}), 400
+    if state:
         update['city_id'] = city_id
         place = Place(**update)
         place.save()
-        return make_response(jsonify(place.to_dict()), 201)
+        return jsonify(place.to_dict()), 201
     abort(404)
 
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_place(place_id):
+def update_place(place_id=None):
     """Creates a place"""
-    p = storage.get(Place, place_id)
-    if p is None:
+    state = storage.get(Place, place_id)
+    if state is None:
         abort(404)
     update = request.get_json(silent=True)
     if update is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, "Not a JSON")
     else:
         for key, value in update.items():
-            if key in ['id', 'user_id', 'place_id,'
-                       'created_at', 'updated_at']:
-                pass
-            else:
-                setattr(p, key, value)
+            if key not in ['id', 'user_id', 'place_id',
+                           'created_at', 'updated_at']:
+                setattr(state, key, value)
         storage.save()
-        response = p.to_dict()
+        response = state.to_dict()
         return make_response(jsonify(response), 200)
