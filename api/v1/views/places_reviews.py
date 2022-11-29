@@ -56,8 +56,8 @@ def create_review(place_id):
     update = request.get_json(silent=True)
     if not update:
         return jsonify({'error': 'Not a JSON'}), 400
-    elif 'name' not in update:
-        return jsonify({'error': 'Missing Name'}), 400
+    elif 'text' not in update:
+        return jsonify({'error': 'Missing text'}), 400
     elif 'user_id' not in update:
         return jsonify({'error': 'Missing user_id'}), 400
     if p:
