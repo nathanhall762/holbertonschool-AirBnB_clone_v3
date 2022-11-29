@@ -88,7 +88,7 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    @unittest.skipif(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_method(self):
         """Test that ensures accuracy in getting objects"""
         obj = State(name="Test")
@@ -97,7 +97,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNot(obj, obj_selected)
         obj.delete()
 
-    @unittest.skipif(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_failure(self):
         """Test that ensures accuracy in getting objects"""
         obj = State(name="Test")
@@ -106,20 +106,20 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNot(obj, obj_selected)
         obj.delete()
 
-    @unittest.skipif(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count_method(self):
         """Test that counts all objects and selected objects accurately"""
-        all_objs = len(storage.all())
-        selected_obj_count = storage.count()
+        all_objs = len(models.storage.all())
+        selected_obj_count = models.storage.count()
         self.assertEqual(selected_obj_count, all_objs)
-        selected_obj_count = storage.count('State')
-        all_objs = len(storage.all('State'))
+        selected_obj_count = models.storage.count('State')
+        all_objs = len(models.storage.all('State'))
         self.assertEqual(selected_obj_count, all_objs)
 
     def test_no_class(self):
         """Test that tests the instance a class is not provided"""
-        self.assertEqual(storage.get("NoMAS", "1738"), None)
+        self.assertEqual(models.storage.get("NoMAS", "1738"), None)
 
     def test_no_id(self):
         """Test that tests the instance an id is not ptovided"""
-        self.assertEqual(storage.get("04061993", "City"), None)
+        self.assertEqual(models.storage.get("04061993", "City"), None)
