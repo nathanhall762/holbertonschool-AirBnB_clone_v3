@@ -72,19 +72,19 @@ def create_place(city_id):
                  methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
     """Creates a place"""
-    p = storage.get(Place, place_id)
-    if p is None:
+    state = storage.get(Place, place_id)
+    if state is None:
         abort(404)
     update = request.get_json(silent=True)
     if update is None:
         abort(400, "Not a JSON")
     else:
         for key, value in update.items():
-            if key in ['id', 'user_id', 'place_id,'
+            if key in ['id', 'user_id', 'place_id',
                        'created_at', 'updated_at']:
                 pass
             else:
-                setattr(p, key, value)
+                setattr(state, key, value)
         storage.save()
-        response = p.to_dict()
-        return jsonify(response), 200
+        response = state.to_dict()
+        return make_response(jsonify(response), 200)
