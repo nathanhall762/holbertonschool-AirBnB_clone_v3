@@ -18,7 +18,7 @@ def all_reviews(place_id):
     return_list = []
     for p in s.values():
         if p.id == place_id:
-            review_list = p.cities
+            review_list = p.reviews
     if review_list is None:
         abort(404)
     for r in review_list:
