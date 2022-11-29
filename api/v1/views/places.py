@@ -70,20 +70,21 @@ def create_place(city_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_place(place_id=None):
+def update_place(place_id):
     """Creates a place"""
-    state = storage.get(Place, place_id)
-    if state is None:
+    p = storage.get(Place, place_id)
+    if p is None:
         abort(404)
     update = request.get_json(silent=True)
     if update is None:
-        abort(400, "Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     else:
         for key, value in update.items():
-            if key in ['id', 'created_at', 'updated_at']:
+            if key in ['id', 'user_id', 'place_id,'
+                       'created_at', 'updated_at']:
                 pass
             else:
-                setattr(state, key, value)
+                setattr(p, key, value)
         storage.save()
-        response = state.to_dict()
+        response = p.to_dict()
         return make_response(jsonify(response), 200)
