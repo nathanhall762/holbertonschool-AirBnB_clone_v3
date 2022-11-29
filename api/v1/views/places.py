@@ -67,6 +67,7 @@ def create_place(city_id):
             place = Place(**update)
             place.save()
             return jsonify(place.to_dict()), 201
+        abort(404)
     except IntegrityError:
         abort(404)
 
