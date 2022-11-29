@@ -14,15 +14,15 @@ from models.city import City
 def all_places(city_id):
     """Retrieves all places"""
     s = storage.all(City)
-    cities_list = None
+    place_list = None
     return_list = []
     for city in s.values():
         if city.id == city_id:
-            cities_list = city.cities
-    if cities_list is None:
+            place_list = city.places
+    if place_list is None:
         abort(404)
-    for city in cities_list:
-        return_list.append(city.to_dict())
+    for place in place_list:
+        return_list.append(place.to_dict())
     return jsonify(return_list)
 
 
