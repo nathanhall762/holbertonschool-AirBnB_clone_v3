@@ -121,4 +121,4 @@ class TestFileStorage(unittest.TestCase):
 
     def test_no_id(self):
         """Test that tests the instance an id is not ptovided"""
-        self.assertEqual(models.storage.get("04061993", "City") None)
+        self.assertEqual(models.storage.get("04061993", "City"), None)
