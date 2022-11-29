@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.review import Review
+from sqlalchemy.exc import IntegrityError
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -52,20 +53,23 @@ def delete_review(review_id=None):
                  methods=['POST'], strict_slashes=False)
 def create_review(place_id):
     """Creates a review"""
-    p = storage.get(Place, place_id)
-    update = request.get_json(silent=True)
-    if not update:
-        return jsonify({'error': 'Not a JSON'}), 400
-    elif 'text' not in update:
-        return jsonify({'error': 'Missing text'}), 400
-    elif 'user_id' not in update:
-        return jsonify({'error': 'Missing user_id'}), 400
-    if p:
-        update['place_id'] = place_id
-        city = Review(**update)
-        city.save()
-        return jsonify(city.to_dict()), 201
-    abort(404)
+    try:
+        p = storage.get(Place, place_id)
+        update = request.get_json(silent=True)
+        if not update:
+            return jsonify({'error': 'Not a JSON'}), 400
+        elif 'text' not in update:
+            return jsonify({'error': 'Missing text'}), 400
+        elif 'user_id' not in update:
+            return jsonify({'error': 'Missing user_id'}), 400
+        if p:
+            update['place_id'] = place_id
+            city = Review(**update)
+            city.save()
+            return jsonify(city.to_dict()), 201
+        abort(404)
+    except IntegrityError:
+        abort(404)
 
 
 @app_views.route('/reviews/<review_id>',
