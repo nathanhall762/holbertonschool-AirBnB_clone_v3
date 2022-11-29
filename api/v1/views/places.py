@@ -53,6 +53,8 @@ def delete_place(place_id=None):
 def create_place(city_id):
     """Creates a place"""
     state = storage.get(City, city_id)
+    if not state:
+        abort(404)
     update = request.get_json(silent=True)
     if not update:
         return jsonify({'error': 'Not a JSON'}), 400
@@ -65,7 +67,6 @@ def create_place(city_id):
         place = Place(**update)
         place.save()
         return jsonify(place.to_dict()), 201
-    abort(404)
 
 
 @app_views.route('/places/<place_id>',
