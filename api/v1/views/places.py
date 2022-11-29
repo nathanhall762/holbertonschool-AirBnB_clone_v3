@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City
+from sqlalchemy.exc import IntegrityError
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -52,8 +53,9 @@ def delete_place(place_id=None):
                  methods=['POST'], strict_slashes=False)
 def create_place(city_id=None):
     """Creates a place"""
-    state = storage.get(City, city_id)
-    if state is None:
+    try:
+        s = storage.get(City, city_id)
+    except IntegrityError:
         abort(404)
     update = request.get_json(silent=True)
     if not update:
@@ -62,11 +64,12 @@ def create_place(city_id=None):
         return jsonify({'error': 'Missing name'}), 400
     elif 'user_id' not in update:
         return jsonify({'error': 'Missing user_id'}), 400
-    if state:
+    if s:
         update['city_id'] = city_id
         place = Place(**update)
         place.save()
         return jsonify(place.to_dict()), 201
+    abort(404)
 
 
 @app_views.route('/places/<place_id>',
