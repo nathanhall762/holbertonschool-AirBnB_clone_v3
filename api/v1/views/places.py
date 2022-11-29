@@ -77,7 +77,7 @@ def update_place(place_id):
         abort(404)
     update = request.get_json(silent=True)
     if update is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        return jsonify({"error": "Not a JSON"}), 400
     else:
         for key, value in update.items():
             if key in ['id', 'user_id', 'place_id,'
@@ -87,4 +87,4 @@ def update_place(place_id):
                 setattr(p, key, value)
         storage.save()
         response = p.to_dict()
-        return make_response(jsonify(response), 200)
+        return jsonify(response), 200
