@@ -84,10 +84,7 @@ def update_review(review_id):
         for key, value in r.items():
             if key not in ['id', 'user_id', 'place_id',
                            'created_at', 'updated_at']:
-                setattr(review_dict, key, value)
+                setattr(r, key, value)
         storage.save()
-        try:
-            return make_response(jsonify(r.to_dict()), 200)
-        except:
-            return ''
+        return make_response(jsonify(r.to_dict()), 200)
     abort(404)  # a 404 error
