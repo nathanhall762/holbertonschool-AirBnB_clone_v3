@@ -58,7 +58,7 @@ def create_place(city_id):
         return jsonify({'error': 'Not a JSON'}), 400
     elif 'name' not in update:
         return jsonify({'error': 'Missing name'}), 400
-    if 'user_id' not in state:
+    elif 'user_id' not in update:
         return jsonify({'error': 'Missing user_id'}), 400
     if state:
         update['city_id'] = city_id
