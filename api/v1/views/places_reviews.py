@@ -83,7 +83,7 @@ def update_review(review_id):
     if not review_dict:
         return (jsonify({"error": "Not a JSON"}), 400)
     else:
-        for key, value in r.items():
+        for key, value in review_dict.items():
             if key not in ['id', 'user_id', 'place_id',
                            'created_at', 'updated_at']:
                 setattr(r, key, value)
