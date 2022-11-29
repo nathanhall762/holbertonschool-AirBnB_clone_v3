@@ -76,15 +76,17 @@ def create_review(place_id):
                  methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
     """Creates a review"""
+    r = storage.get(Review, review_id)
+    if r is None:
+        abort(404)  # a 404 error
     review_dict = request.get_json(silent=True)
     if not review_dict:
         return (jsonify({"error": "Not a JSON"}), 400)
-    r = storage.get(Review, review_id)
-    if r:
+    else:
         for key, value in r.items():
             if key not in ['id', 'user_id', 'place_id',
                            'created_at', 'updated_at']:
                 setattr(r, key, value)
         storage.save()
         return make_response(jsonify(r.to_dict()), 200)
-    abort(404)  # a 404 error
+    
