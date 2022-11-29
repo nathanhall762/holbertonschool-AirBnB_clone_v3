@@ -80,8 +80,7 @@ def update_place(place_id=None):
         abort(400, "Not a JSON")
     else:
         for key, value in update.items():
-            if key in ['id', 'user_id', 'place_id',
-                       'created_at', 'updated_at']:
+            if key in ['id', 'created_at', 'updated_at']:
                 pass
             else:
                 setattr(state, key, value)
