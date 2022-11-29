@@ -86,5 +86,8 @@ def update_review(review_id):
                            'created_at', 'updated_at']:
                 setattr(review_dict, key, value)
         storage.save()
-        return make_response(jsonify(r.to_dict()), 200)
+        try:
+            return make_response(jsonify(r.to_dict()), 200)
+        except:
+            return ''
     abort(404)  # a 404 error
