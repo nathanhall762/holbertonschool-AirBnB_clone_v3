@@ -116,13 +116,13 @@ class TestFileStorage(unittest.TestCase):
 
     def test_no_class(self):
         """Test that tests the instance a class is not provided"""
-        self.assertEqual(models.storage.get("NoMAS", "1738"), None)
+        self.assertEqual(storage.get("NoMAS", "1738"), None)
 
     def test_no_id(self):
         """Test that tests the instance an id is not ptovided"""
-        self.assertEqual(models.storage.get("04061993", "City") None)
+        self.assertEqual(storage.get("04061993", "City") None)
 
     def too_many_args(self):
         """Test that raises error when too many arguments are provided"""
         with self.assertRaises(TypeError):
-            models.storage.count("3", "4")
+            storage.count("3", "4")
