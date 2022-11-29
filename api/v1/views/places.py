@@ -7,7 +7,6 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City
-from sqlalchemy.exc import IntegrityError
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -55,7 +54,7 @@ def create_place(city_id=None):
     """Creates a place"""
     try:
         s = storage.get(City, city_id)
-    except IntegrityError:
+    except Exception:
         abort(404)
     update = request.get_json(silent=True)
     if not update:
